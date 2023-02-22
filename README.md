@@ -29,3 +29,16 @@ This application is being developed to encourage users to track their workouts i
 
 - Connect to apple/android health apps
 - Videos examples of how to perform exercises
+
+## Domain Model Diagram
+
+```mermaid
+%%{init: {'theme':'dark'}}%%
+erDiagram
+    User ||--o{ WorkOut : manages
+    User ||--o{ Routine: creates
+    Routine||--|{ WorkOut: includes
+    Routine||--|{ Exercise: contains
+    WorkOut ||..o{ Exercise : contains
+
+```
