@@ -11,8 +11,8 @@ This application is being developed to encourage users to track their workouts i
 ### Must have
 
 - A user must be able to log in
-- A user must be able to add their weekly work out plan (exercise selection, sets, rep range)
-- A user must be able to edit the entered workout plans
+- A user must be able to add their Routine (How many days per week, exercise selection, sets, rep range)
+- A user must be able to edit this routine (edit individual workouts)
 
 ### Should have
 
@@ -40,5 +40,68 @@ erDiagram
     Routine||--|{ WorkOut: includes
     Routine||--|{ Exercise: contains
     WorkOut ||..o{ Exercise : contains
+
+```
+
+### Entity Relationship Diagram
+
+```mermaid
+%%{init: {'theme':'dark'}}%%
+erDiagram
+    user ||--|| routine : creates
+    user {
+        int id PK
+        string firstName
+        string secondName
+        string password
+    }
+    routine ||--|{ workOut : contains
+    routine ||--|{ exercise : contains
+    routine {
+        int id PK
+        string name
+        int weeks
+        int frequency
+        int userId FK
+
+    }
+    workOut ||--|{ workOutExercises : includes
+    workOut {
+        int id PK
+        int name
+        dateFormat date
+        int routine_id FK
+
+    }
+    workOutExercises ||--|{ exercise : includes
+    workOutExercises ||--|{ workOutExerciseSets : includes
+    workOutExercises{
+        int id
+        int workoutId
+        int exerciseId
+    }
+
+    exercise ||--|{ routineExercises: includes
+    exercise ||--|{ bodyPart: includes
+    exercise {
+        string exerciseName PK
+        string bodyPart
+        boolean compound
+        int sets FK
+        int reps FK
+    }
+    routine ||--|{ routineExercises: includes
+    routineExercises {
+        int sets PK
+    }
+
+     bodyPart {
+        int reps PK
+    }
+
+
+     workOutExerciseSets {
+        int reps PK
+    }
 
 ```
