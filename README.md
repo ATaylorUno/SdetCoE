@@ -81,8 +81,8 @@ erDiagram
         int exerciseId
     }
 
-    exercise ||--|{ routineExercises: includes
-    exercise ||--|{ bodyPart: includes
+    exercise ||--|| routineExercises: includes
+    exercise ||--|{ bodyPart: works
     exercise {
         string exerciseName PK
         string bodyPart
@@ -103,5 +103,6 @@ erDiagram
      workOutExerciseSets {
         int reps PK
     }
+
 
 ```
