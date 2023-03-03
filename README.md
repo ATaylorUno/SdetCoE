@@ -51,58 +51,329 @@ erDiagram
     user ||--|| routine : creates
     user {
         int id PK
-        string firstName
-        string secondName
-        string password
+        text first_name
+        text second_name
+        text password
     }
-    routine ||--|{ workOut : contains
+    routine ||--|{ workout : contains
     routine ||--|{ exercise : contains
     routine {
         int id PK
-        string name
+        text name
         int weeks
         int frequency
-        int userId FK
+        int user_id FK
 
     }
-    workOut ||--|{ workOutExercises : includes
-    workOut {
+    workout ||--|{ workout_exercises : includes
+    workout {
         int id PK
-        int name
-        dateFormat date
+        text name
+        dateFormat date_created
         int routine_id FK
 
     }
-    workOutExercises ||--|{ exercise : includes
-    workOutExercises ||--|{ workOutExerciseSets : includes
-    workOutExercises{
-        int id
-        int workoutId
-        int exerciseId
+    workout_exercises ||--|{ exercise : includes
+    workout_exercises ||--|{ workout_exercise_sets : includes
+    workout_exercises{
+        int id pk
+        int workout_id fk
+        int exercise_id fk
     }
 
-    exercise ||--|| routineExercises: includes
-    exercise ||--|{ bodyPart: works
+    exercise ||--|| routine_exercises: includes
+    exercise ||--|{ body_part: works
     exercise {
-        string exerciseName PK
-        string bodyPart
+        int id PK
+        text exercise_name
         boolean compound
-        int sets FK
-        int reps FK
-    }
-    routine ||--|{ routineExercises: includes
-    routineExercises {
-        int sets PK
-    }
+        int body_part_id FK
 
-     bodyPart {
-        int reps PK
+    }
+    routine ||--|{ routine_exercises: includes
+    routine_exercises {
+        int id
+        int routine_id fk
+        int exerise_id fk
     }
 
-
-     workOutExerciseSets {
-        int reps PK
+     body_part {
+        int ids PK
+        text name
     }
 
 
+     workout_exercise_sets {
+        int id
+        int workout_exercise_id fk
+        int reps
+        text difficulty
+    }
+
+
+
+```
+
+## API Specification
+
+GET /users - Return all users
+
+Response
+
+```json
+[
+  {
+    "user_id": 1,
+    "first_name": "Ken",
+    "last_name": "Jones",
+    "password": "speakfriend"
+  },
+  {
+    "user_id": 2,
+    "first_name": "Mary",
+    "last_name": "Jane",
+    "password": "speakfriend"
+  }
+]
+```
+
+POST /users - Create a new user
+
+Request
+
+```json
+[
+  {
+    "first_name": "new_f_name",
+    "last_name": "new_l_name",
+    "password": "new_password"
+  }
+]
+```
+
+PUT /user/{user_id} - Update a user using a given id
+
+Request
+
+```json
+[
+  {
+    "first_name": "update_f_name",
+    "last_name": "update_l_name",
+    "password": "update_password"
+  }
+]
+```
+
+GET /users/{user_id} - Return the user for the given id
+
+Response
+
+```json
+[
+  {
+    "user_id": 1,
+    "first_name": "Ken",
+    "last_name": "Jones",
+    "password": "speakfriend"
+  }
+]
+```
+
+Routine
+
+GET /routines - Return all routines
+
+```json
+Response
+[
+{
+"routine_id": 1,
+"name": "Bulking routine",
+"weeks": "12",
+"frequency": "4x"
+"user_id": "1"
+},
+{
+"routine_id": 2,
+"name": "Bulking routine",
+"weeks": "16",
+"frequency": "5x"
+"user_id": "2"
+}
+]
+```
+
+GET /routines/{user_id} - Return all routines for a given user
+
+Response
+
+```json
+[
+{
+"routine_id": 1,
+"name": "Bulking routine",
+"weeks": "12",
+"frequency": "4x"
+"user_id": "1"
+}
+]
+```
+
+GET /routines/{routine_id}/workouts/ - Get workouts assoicated with a routine
+
+Response
+
+```json
+[
+{
+"workout_id": 1,
+"name": "Chest Day",
+"date_created": Date,
+"routine_id": 1
+},
+{
+"workout_id": 2,
+"name": "leg Day",
+"date_created": Date,
+"routine_id": 1
+}
+]
+```
+
+GET /routines/{routine_id}/exercises/ - Get exercises assoicated with a routine
+
+Response
+
+```json
+[
+{
+"exercise_id": 4,
+"exercise_name": "Shoulder Press",
+"compound": True,
+"body_part_id": "5"
+},
+{
+"exercise_id": 5,
+"exercise_name": "Deadlift",
+"compound": True,
+"body_part_id": "4"
+}
+]
+```
+
+Exercise
+
+GET /exercises - Return all exercises
+
+Response
+
+```json
+[
+{
+"exercise_id": 1,
+"exercise_name": "Bench Press",
+"compound": True,
+"body_part_id": "1"
+},
+{
+"exercise_id": 2,
+"exercise_name": "Squat",
+"compound": True,
+"body_part_id": "2"
+}
+]
+```
+
+POST /exercises - Add a new exercise
+
+Request
+
+```json
+[
+{
+"exercise_name": "new_exercise",
+"compound": True/false,
+"body_part_id": "body_part_id"
+}
+]
+```
+
+PUT /exercises/{exercise_id} - Update an exercise
+
+Request
+
+```json
+[
+{
+"exercise_name": "update_exercise",
+"compound": True/false,
+"body_part_id": "body_part_id"
+}
+]
+```
+
+GET /exercises/{body_part_id} - Return a list of exercises associated with a body part
+
+Response
+
+```json
+[
+{
+"exercise_id": 1,
+"exercise_name": "Bench Press",
+"compound": True,
+"body_part_id": "1"
+}
+]
+```
+
+Workout
+
+Exercise
+
+GET /workouts - Return all workouts
+
+Response
+
+```json
+[
+{
+"workout_id": 5,
+"name": "Upper Day",
+"date_created": Date,
+"routine_id": 4
+},
+{
+"workout_id": 9,
+"name": "Lower Day",
+"date_created": Date,
+"routine_id": 4
+}
+]
+```
+
+GET /workouts/{workout_id}/exercises - Return a list of exercises within a workout
+
+Response
+
+```json
+[
+{
+"exercise_id": 1,
+"exercise_name": "Bench Press",
+"compound": True,
+"reps": "5",
+"difficulty": "5"
+"body_part_id": "1"
+},
+{
+"exercise_id": 2,
+"exercise_name": "Incline DB Chest Press",
+"compound": True,
+"reps": "8",
+"difficulty": "3"
+"body_part_id": "7"
+}
+]
 ```
