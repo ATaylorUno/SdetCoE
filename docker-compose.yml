@@ -6,14 +6,14 @@ services:
     ports:
       - 5432:5432
     environment:
-      POSTGRES_DB: todo
+      POSTGRES_DB: BodyMax
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
     volumes:
       - db:/var/lib/postgresql/data
   flyway:
     image: flyway/flyway
-    command: -url=jdbc:postgresql://db/todo -schemas=public -user=postgres
+    command: -url=jdbc:postgresql://db/BodyMax -schemas=public -user=postgres
       -password=password -connectRetries=5 migrate
     volumes:
       - ./database:/flyway/sql
