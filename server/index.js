@@ -1,62 +1,48 @@
-const express = require('express')
-const app = express()
+const express = require("express");
+const cors = require("cors");
+const { json, urlencoded } = require("body-parser");
+const swaggerJsdoc = require("swagger-jsdoc");
+const swaggerUI = require("swagger-ui-express");
+const workoutsRouter = require("./routers/workouts");
+const exercisesRouter = require("./routers/exercises");
+const routinesRouter = require("./routers/routines");
+const usersRouter = require("./routers/users");
 
-app.get('/users', function (req, res) {
-  res.send('Return all users')
-})
+//const swaggerDocument = require('./open-api.json');
 
-app.post('/users', function (req, res) {
-  res.send('Create a new user')
-})
+const swaggerDefinition = {
+  openapi: "3.0.0",
+  info: {
+    title: "Workout API",
+    version: "1.0.0"
+  },
+  servers: [
+    {
+      url: "http://localhost:3000",
+      description: "Local development server"
+    }
+  ]
+};
 
-app.put('/user/:user_id(\\d+)', function (req, res) {
-  res.send('Update a user by ID')
-})
+const openapiSpecification = swaggerJsdoc({
+  swaggerDefinition,
+  apis: ["./routers/*.js"]
+});
 
-app.get('/user/:user_id(\\d+)', function (req, res) {
-  res.send('Return the user for the given id')
-})
+const app = express();
 
-app.get('/routines', function (req, res) {
-  res.send('Return all routines')
-})
+app.use(cors());
+app.use(json());
+app.use(urlencoded({ extended: true }));
 
-app.get('/routines/:user_id(\\d+)', function (req, res) {
-  res.send('Return all routines for a given user')
-})
+app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(openapiSpecification));
+app.use("/swagger.json", (req, res) =>
+  res.json(openapiSpecification).status(200)
+);
 
-app.get('/routines/:routine_id(\\d+)/workouts/', function (req, res) {
-  res.send('Get workouts assoicated with a routine')
-})
+app.use("/users", usersRouter);
+app.use("/workouts", workoutsRouter);
+app.use("/exercises", exercisesRouter);
+app.use("/routines", routinesRouter);
 
-app.get('/routines/:routine_id(\\d+)/exercises/', function (req, res) {
-  res.send('Get exercises assoicated with a routine')
-})
-
-app.get('/exercises', function (req, res) {
-  res.send('Return all exercises')
-})
-
-app.post('/exercises', function (req, res) {
-  res.send('Create a new exercise')
-})
-
-app.put('/user/:exercise_id(\\d+)', function (req, res) {
-  res.send('Update an exercise by ID')
-})
-
-
-app.get('/exercises/:body_part_id(\\d+)', function (req, res) {
-  res.send('Return all exercises associated with a body part')
-})
-
-app.get('/workouts', function (req, res) {
-  res.send('Return all workouts')
-})
-
-app.get('/workouts/:workout_id(\\d+)/exercises', function (req, res) {
-  res.send('Return a list of exercises within a workout')
-})
-
-
-app.listen(3000)
+app.listen(3000);
