@@ -4,6 +4,7 @@ const validationUtils = require("../utils/validation");
 const { body } = require("express-validator");
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
+const { exercisesController } = require("../controllers/");
 
 /**
  * @swagger
@@ -26,11 +27,8 @@ const prisma = new PrismaClient();
  *         description: No content
  */
 
-router.route("/").get(async (req, res) => {
-  const exercises = await prisma.exercises.findMany();
+router.route("/").get(exercisesController.getExercises);
 
-  return res.status(200).json(exercises);
-});
 /**
  * @swagger
  * /exercises:
@@ -88,7 +86,7 @@ router
         .trim()
     ],
     validationUtils.validate,
-    (req, res) => res.send("Post a new exercise")
+    exercisesController.postExercises
   );
 /**
  * @swagger
@@ -152,8 +150,9 @@ router
         .trim()
     ],
     validationUtils.validate,
-    (req, res) => res.send("Update an Exercise by ID")
+    exercisesController.putExercises
   );
+
 /**
  * @swagger
  * /exercises/{body_part_id}:
@@ -179,14 +178,8 @@ router
  *       204:
  *         description: No content
  */
-router.route("/:body_part_id(\\d+)").get(async (req, res) => {
-  const exercises = await prisma.exercises.findMany({
-    where: {
-      body_part_id: parseInt(req.params.body_part_id)
-    }
-  });
-
-  res.status(200).json(exercises);
-});
+router
+  .route("/:body_part_id(\\d+)")
+  .get(exercisesController.getExercisesBodyId);
 
 module.exports = router;

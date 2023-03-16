@@ -1,5 +1,6 @@
 const { Router } = require("express");
 const router = Router();
+const { routinesController } = require("../controllers/");
 
 /**
  * @swagger
@@ -21,11 +22,7 @@ const router = Router();
  *       204:
  *         description: No content
  */
-router.route("/").get(async (req, res) => {
-  const routines = await prisma.routines.findMany();
-
-  return res.status(200).json(routines);
-});
+router.route("/").get(routinesController.getRoutines);
 /**
  * @swagger
  * /routines/{user_id}:
@@ -51,15 +48,7 @@ router.route("/").get(async (req, res) => {
  *       204:
  *         description: No content
  */
-router.route("/:user_id(\\d+)").get(async (req, res) => {
-  const routines = await prisma.routines.findMany({
-    where: {
-      user_id: parseInt(req.params.user_id)
-    }
-  });
-
-  res.status(200).json(routines);
-});
+router.route("/:user_id(\\d+)").get(routinesController.getRoutinesByUserID);
 /**
  * @swagger
  * /routines/{routine_id}/workouts:
@@ -85,15 +74,9 @@ router.route("/:user_id(\\d+)").get(async (req, res) => {
  *       204:
  *         description: No content
  */
-router.route("/:routine_id(\\d+)/workouts/").get(async (req, res) => {
-  const routines = await prisma.routines.findMany({
-    where: {
-      routine_id: parseInt(req.params.routine_id)
-    }
-  });
-
-  res.status(200).json(routines);
-});
+router
+  .route("/:routine_id(\\d+)/workouts/")
+  .get(routinesController.getRoutineWorkout);
 /**
  * @swagger
  * /routines/{routine_id}/exercises:
@@ -119,14 +102,8 @@ router.route("/:routine_id(\\d+)/workouts/").get(async (req, res) => {
  *       204:
  *         description: No content
  */
-router.route("/:routine_id(\\d+)/exercises/").get(async (req, res) => {
-  const routines = await prisma.routines.findMany({
-    where: {
-      routine_id: parseInt(req.params.routine_id)
-    }
-  });
-
-  res.status(200).json(routines);
-});
+router
+  .route("/:routine_id(\\d+)/exercises/")
+  .get(routinesController.getExerciseRoutine);
 
 module.exports = router;
