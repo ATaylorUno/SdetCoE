@@ -14,6 +14,11 @@ const { exercisesController } = require("../controllers/");
  *       exercises
  *     ]
  *     summary: Returns an array of exercises with the exercise_id, name, compound and body part ID associated
+ *     parameters:
+ *      - name: body_part_id
+ *        in: query
+ *        type: interger
+ *        description: The ID of the body part
  *     responses:
  *       200:
  *         description: OK

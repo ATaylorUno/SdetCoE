@@ -2,7 +2,12 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 async function getExercises(req, res) {
-  const exercises = await prisma.exercises.findMany();
+  const { body_part_id } = req.query;
+  const config = { where: {} };
+  if (body_part_id) {
+    config.where.body_part_id = parseInt(body_part_id);
+  }
+  const exercises = await prisma.exercises.findMany(config);
 
   return res.status(200).json(exercises);
 }
@@ -40,8 +45,11 @@ async function getExercisesBodyId(req, res) {
       body_part_id: parseInt(req.params.body_part_id)
     }
   });
-
-  res.status(200).json(exercises);
+  if (exercises) {
+    res.status(200).json(exercises);
+  } else {
+    res.sendStatus(404);
+  }
 }
 
 module.exports = {

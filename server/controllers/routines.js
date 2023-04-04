@@ -2,9 +2,27 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 async function getRoutines(req, res) {
-  const routines = await prisma.routines.findMany();
+  const { weeks, frequency } = req.query;
+  const { user } = res.locals;
+  const config = {
+    where: {
+      user_id: parseInt(user)
+    }
+  };
+  if (weeks) {
+    config.where.weeks = parseInt(weeks);
+  }
 
-  return res.status(200).json(routines);
+  if (frequency) {
+    config.where.frequency = parseInt(frequency);
+  }
+  const routines = await prisma.routines.findMany(config);
+
+  if (routines) {
+    res.status(200).json(routines);
+  } else {
+    res.sendStatus(404);
+  }
 }
 
 async function getRoutinesByUserID(req, res) {
@@ -14,27 +32,39 @@ async function getRoutinesByUserID(req, res) {
     }
   });
 
-  res.status(200).json(routines);
+  if (routines) {
+    res.status(200).json(routines);
+  } else {
+    res.sendStatus(404);
+  }
 }
 
 async function getRoutineWorkout(req, res) {
-  const routines = await prisma.workouts.findMany({
+  const routines = await prisma.workouts.findUnique({
     where: {
-      routine_id: parseInt(req.params.routine_id)
+      id: parseInt(req.params.routine_id)
     }
   });
 
-  res.status(200).json(routines);
+  if (routines) {
+    res.status(200).json(routines);
+  } else {
+    res.sendStatus(404);
+  }
 }
 
 async function getExerciseRoutine(req, res) {
-  const routines = await prisma.routine_exercises.findMany({
+  const routines = await prisma.routine_exercises.findUnique({
     where: {
-      routine_id: parseInt(req.params.routine_id)
+      id: parseInt(req.params.routine_id)
     }
   });
 
-  res.status(200).json(routines);
+  if (routines) {
+    res.status(200).json(routines);
+  } else {
+    res.sendStatus(404);
+  }
 }
 
 module.exports = {

@@ -13,6 +13,15 @@ const { usersController } = require("../controllers/");
  *       users
  *     ]
  *     summary: Returns an array of users with the user ID, name & password
+ *     parameters:
+ *      - name: first_name
+ *        in: query
+ *        type: string
+ *        description: The filter for user first name
+ *      - name: second_name
+ *        in: query
+ *        type: string
+ *        description: The filter for user second name
  *     responses:
  *       200:
  *         description: OK

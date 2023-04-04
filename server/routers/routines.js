@@ -10,6 +10,15 @@ const { routinesController } = require("../controllers/");
  *       routines
  *     ]
  *     summary: Returns an array of routines with the routine_id, name, frequency and user ID associated
+ *     parameters:
+ *      - name: weeks
+ *        in: query
+ *        type: interger
+ *        description: The filter for user first name
+ *      - name: frequency
+ *        in: query
+ *        type: interger
+ *        description: The filter for user second name
  *     responses:
  *       200:
  *         description: OK
@@ -23,6 +32,7 @@ const { routinesController } = require("../controllers/");
  *         description: No content
  */
 router.route("/").get(routinesController.getRoutines);
+
 /**
  * @swagger
  * /routines/{user_id}:

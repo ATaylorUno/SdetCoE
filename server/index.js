@@ -3,10 +3,16 @@ const cors = require("cors");
 const { json, urlencoded } = require("body-parser");
 const swaggerJsdoc = require("swagger-jsdoc");
 const swaggerUI = require("swagger-ui-express");
-const workoutsRouter = require("./routers/workouts");
-const exercisesRouter = require("./routers/exercises");
-const routinesRouter = require("./routers/routines");
-const usersRouter = require("./routers/users");
+
+const {
+  workoutsRouter,
+  exercisesRouter,
+  routinesRouter,
+  usersRouter,
+  authenticationRouter
+} = require("./routers");
+
+const { verifyToken } = require("./middleware/authentication");
 
 //const swaggerDocument = require('./open-api.json');
 
@@ -20,6 +26,23 @@ const swaggerDefinition = {
     {
       url: "http://localhost:3000",
       description: "Local development server"
+    }
+  ],
+  components: {
+    securitySchemes: {
+      bearerAuth: {
+        type: "http",
+        in: "header",
+        name: "Authorization",
+        description: "Bearer token to access api endpoints",
+        scheme: "bearer",
+        bearerFormat: "JWT"
+      }
+    }
+  },
+  security: [
+    {
+      bearerAuth: []
     }
   ]
 };
@@ -40,6 +63,8 @@ app.use("/swagger.json", (req, res) =>
   res.json(openapiSpecification).status(200)
 );
 
+app.use("/authentication", authenticationRouter);
+app.all("*", verifyToken);
 app.use("/users", usersRouter);
 app.use("/workouts", workoutsRouter);
 app.use("/exercises", exercisesRouter);
