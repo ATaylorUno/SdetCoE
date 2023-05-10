@@ -5,7 +5,7 @@ function validate(req, res, next) {
   const hasError = !error.isEmpty();
 
   if (hasError) {
-    res.status(400).json({ error: error.array() });
+    res.status(400).json({ error: error.array({ onlyFirstError: true }) });
   } else {
     next();
   }

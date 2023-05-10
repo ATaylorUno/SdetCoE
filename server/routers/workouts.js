@@ -4,6 +4,7 @@ const validationUtils = require("../utils/validation");
 const { body } = require("express-validator");
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
+const { workoutsController } = require("../controllers/");
 
 /**
  * @swagger
@@ -25,11 +26,7 @@ const prisma = new PrismaClient();
  *       204:
  *         description: No content
  */
-router.route("/").get(async (req, res) => {
-  const workouts = await prisma.workouts.findMany();
-
-  return res.status(200).json(workouts);
-});
+router.route("/").get(workoutsController.getWorkouts);
 /**
  * @swagger
  * /workouts/{workout_id}/exercises:
@@ -55,14 +52,8 @@ router.route("/").get(async (req, res) => {
  *       204:
  *         description: No content
  */
-router.route("/:workout_id(\\d+)/exercises").get(async (req, res) => {
-  const workouts = await prisma.workouts.findMany({
-    where: {
-      workout_id: parseInt(req.params.workout_id)
-    }
-  });
-
-  res.status(200).json(workouts);
-});
+router
+  .route("/:workout_id(\\d+)/exercises")
+  .get(workoutsController.getExercisesByWorkoutId);
 
 module.exports = router;
