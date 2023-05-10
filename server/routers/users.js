@@ -87,7 +87,7 @@ router
         .isLength({ min: 3 })
         .withMessage("the second_name must have minimum length of 3")
         .trim(),
-      body("password").isString().withMessage("password is required.").trim()
+      body("password").isString().withMessage("password is required").trim()
     ],
     validationUtils.validate,
     usersController.createUser

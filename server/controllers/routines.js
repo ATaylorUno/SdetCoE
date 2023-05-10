@@ -1,5 +1,4 @@
-const { PrismaClient } = require("@prisma/client");
-const prisma = new PrismaClient();
+const prisma = require("../utils/prisma");
 
 async function getRoutines(req, res) {
   const { weeks, frequency } = req.query;
@@ -18,17 +17,16 @@ async function getRoutines(req, res) {
   }
   const routines = await prisma.routines.findMany(config);
 
-  if (routines) {
-    res.status(200).json(routines);
-  } else {
-    res.sendStatus(404);
+  if (routines && routines.length > 0) {
+    return res.status(200).json(routines);
   }
+  return res.sendStatus(204);
 }
 
 async function getRoutinesByUserID(req, res) {
-  const routines = await prisma.routines.findMany({
+  const routines = await prisma.routines.findUnique({
     where: {
-      user_id: parseInt(req.params.user_id)
+      id: parseInt(req.params.user_id)
     }
   });
 

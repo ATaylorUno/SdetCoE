@@ -16,7 +16,7 @@ async function getWorkouts(req, res) {
 }
 
 async function getExercisesByWorkoutId(req, res) {
-  const workouts = await prisma.workouts.findMany({
+  const workouts = await prisma.workouts.findUnique({
     where: {
       id: parseInt(req.params.workout_id)
     },
@@ -29,11 +29,11 @@ async function getExercisesByWorkoutId(req, res) {
     }
   });
 
-  const exercises = workouts
-    .flatMap((x) => x.workout_exercises)
-    .map((x) => x.exercises);
-
-  res.status(200).json(exercises);
+  if (workouts && workouts.workout_exercises.length > 0) {
+    const exercises = workouts.workout_exercises.map((x) => x.exercises);
+    return res.status(200).json(exercises);
+  }
+  return res.sendStatus(204);
 }
 
 module.exports = {

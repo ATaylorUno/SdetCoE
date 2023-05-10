@@ -1,5 +1,4 @@
-const { PrismaClient } = require("@prisma/client");
-const prisma = new PrismaClient();
+const prisma = require("../utils/prisma");
 const bcrypt = require("bcrypt");
 
 async function getUser(req, res) {
@@ -26,7 +25,10 @@ async function getUser(req, res) {
   }
   const users = await prisma.users.findMany(config);
 
-  return res.status(200).json(users);
+  if (users && users.length > 0) {
+    return res.status(200).json(users);
+  }
+  return res.sendStatus(204);
 }
 
 async function createUser(req, res) {
@@ -43,19 +45,28 @@ async function createUser(req, res) {
 }
 
 async function updateUser(req, res) {
-  const { first_name, second_name, password } = req.body;
-  const hashedPassword = await bcrypt.hash(password, 10);
-  const user = await prisma.users.update({
-    where: {
-      id: parseInt(req.params.user_id)
-    },
-    data: {
-      first_name,
-      second_name,
-      password: hashedPassword
+  const { user_id } = req.params;
+
+  const { first_name, second_name, password } = req.body; //check variables are being used correctly
+  try {
+    const hashedPassword = await bcrypt.hash(password, 10); //password doesnt need to be hashed in unit tests, just that bcrypt is being called
+    await prisma.users.update({
+      //not using prisma, just checking it is being called
+      where: {
+        id: parseInt(req.params.user_id)
+      },
+      data: {
+        first_name,
+        second_name,
+        password: hashedPassword
+      }
+    });
+  } catch (error) {
+    if (error.code === "P2025") {
+      return res.sendStatus(404);
     }
-  });
-  res.status(201).json(user);
+  }
+  return res.sendStatus(204);
 }
 
 async function getUserById(req, res) {

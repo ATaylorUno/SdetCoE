@@ -1,5 +1,11 @@
 const jwt = require("jsonwebtoken");
+const handleTest = (res, next) => {
+  res.locals.user = 1;
+  return next();
+};
+
 const verifyToken = async (req, res, next) => {
+  if (process.env.NODE_ENV === "test") return handleTest(res, next);
   if (req.path === "/users" && req.method == "POST") return next();
 
   const splitAuth = req.headers.authorization?.split(" ");

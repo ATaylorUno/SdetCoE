@@ -1,5 +1,4 @@
-const { PrismaClient } = require("@prisma/client");
-const prisma = new PrismaClient();
+const prisma = require("../utils/prisma");
 
 async function getExercises(req, res) {
   const { body_part_id } = req.query;
@@ -9,7 +8,10 @@ async function getExercises(req, res) {
   }
   const exercises = await prisma.exercises.findMany(config);
 
-  return res.status(200).json(exercises);
+  if (exercises && exercises.length > 0) {
+    return res.status(200).json(exercises);
+  }
+  return res.sendStatus(204);
 }
 
 async function postExercises(req, res) {
@@ -25,18 +27,26 @@ async function postExercises(req, res) {
 }
 
 async function putExercises(req, res) {
+  const { exercise_id } = req.params;
+
   const { exercise_name, compound, body_part_id } = req.body;
-  const exercises = await prisma.exercises.update({
-    where: {
-      id: parseInt(req.params.exercise_id)
-    },
-    data: {
-      exercise_name,
-      compound: Boolean(compound),
-      body_part_id: parseInt(body_part_id)
+  try {
+    await prisma.exercises.update({
+      where: {
+        id: parseInt(exercise_id)
+      },
+      data: {
+        exercise_name,
+        compound: Boolean(compound),
+        body_part_id: parseInt(body_part_id)
+      }
+    });
+  } catch (error) {
+    if (error.code === "P2025") {
+      return res.sendStatus(404);
     }
-  });
-  res.status(200).json(exercises);
+  }
+  return res.sendStatus(204);
 }
 
 async function getExercisesBodyId(req, res) {
@@ -45,7 +55,7 @@ async function getExercisesBodyId(req, res) {
       body_part_id: parseInt(req.params.body_part_id)
     }
   });
-  if (exercises) {
+  if (exercises && exercises.length > 0) {
     res.status(200).json(exercises);
   } else {
     res.sendStatus(404);

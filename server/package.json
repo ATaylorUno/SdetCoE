@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js",
-    "test": "jest"
+    "test:unit": "NODE_ENV=test jest --testPathIgnorePatterns ./routers/",
+    "test:integration": "NODE_ENV=test jest --config ./jest.integration.config.js --testPathPattern ./routers/  --forceExit"
   },
   "repository": {
     "type": "git",
@@ -16,6 +17,10 @@
   ],
   "author": "Andrew Taylor",
   "license": "ISC",
+  "jest": {
+    "clearMocks": true,
+    "testTimeout": 15000
+  },
   "bugs": {
     "url": "https://github.com/ATaylorUno/issues"
   },
@@ -35,6 +40,8 @@
   "devDependencies": {
     "jest": "^29.5.0",
     "jest-when": "^3.5.2",
-    "prisma": "^4.11.0"
+    "prisma": "^4.11.0",
+    "supertest": "^6.3.3",
+    "testcontainers": "^9.5.0"
   }
 }

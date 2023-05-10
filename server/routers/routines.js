@@ -1,4 +1,5 @@
 const { Router } = require("express");
+const { body } = require("express-validator");
 const router = Router();
 const { routinesController } = require("../controllers/");
 
