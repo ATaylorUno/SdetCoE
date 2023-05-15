@@ -24,3 +24,4 @@ yarn-error.log*
 test/api/html-report/report.html
 test/api/html-report/jest-html-reporters-attach/report/index.js
 test/api/html-report/jest-html-reporters-attach/report/result.js
+package-lock.json
