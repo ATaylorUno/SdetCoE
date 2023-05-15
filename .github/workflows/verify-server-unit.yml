@@ -7,7 +7,6 @@ on:
 
 defaults:
   run:
-    using: 'node16'
     working-directory: ./server
 
 jobs:
@@ -16,6 +15,8 @@ jobs:
     steps:
       - name: 🛎 Checkout
         uses: actions/checkout@v2
+        with:
+          node-version: '16'
       - name: Install
         run: npm i
       - name: Test
