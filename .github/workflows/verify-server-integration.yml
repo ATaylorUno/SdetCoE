@@ -7,6 +7,7 @@ on:
 
 defaults:
   run:
+    using: 'node16'
     working-directory: ./server
 
 jobs:
