@@ -3,9 +3,9 @@ name: Verify Migrations
 on:
   pull_request:
     branches:
-      # - main
+      - main
     paths:
-      # - "db/**"
+      - "db/**"
 
 jobs:
   test-pr:
