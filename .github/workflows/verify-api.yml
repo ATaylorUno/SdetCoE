@@ -1,0 +1,21 @@
+name: Verify Server API Tests
+
+on:
+  pull_request:
+    paths:
+      - 'server/**'
+      - 'database/**'
+      - 'test/api/**'
+      
+
+
+jobs:
+  execute:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🛎 Checkout
+        uses: actions/checkout@v3
+      - name: Start docker compose
+        run: docker compose --profile dev up -d --wait
+      - name: Test
+        run:  npm i --prefix ./test/api && (npm test --prefix ./test/api&)
