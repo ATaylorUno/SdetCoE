@@ -16,6 +16,6 @@ jobs:
       - name: 🛎 Checkout
         uses: actions/checkout@v3
       - name: Start docker compose
-        run: docker compose --profile dev up -d --wait && sleep 10
+        run: docker compose --profile dev up -d --wait && sleep 30
       - name: Test
         run:  npm i --prefix ./test/api && (npm test --prefix ./test/api&)
