@@ -21,7 +21,6 @@ describe("Users", () => {
       }
     );
 
-    console.log(authenticationUserResponse.data.accessToken);
     expect(authenticationUserResponse.status).toBe(200);
 
     const retrieveUserResponse = await axios.get(

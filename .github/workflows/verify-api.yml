@@ -19,3 +19,9 @@ jobs:
         run: docker compose --profile dev up -d --wait && sleep 30
       - name: Test
         run:  npm i --prefix ./test/api && (npm test --prefix ./test/api&)
+      - name: Output the run Details
+        uses: actions/upload-artifact@v3
+        if: success()
+        with:
+          name: TestOutput
+          path: ./test/api/html-report
