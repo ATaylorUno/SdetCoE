@@ -7,7 +7,6 @@ describe("Users", () => {
       second_name: "Taylor",
       password: "password"
     });
-    console.log(createUserResponse);
 
     expect(createUserResponse.status).toBe(201);
     const { id } = createUserResponse.data;
@@ -21,7 +20,6 @@ describe("Users", () => {
       }
     );
 
-    console.log(authenticationUserResponse.data.accessToken);
     expect(authenticationUserResponse.status).toBe(200);
 
     const retrieveUserResponse = await axios.get(
