@@ -1,15 +1,18 @@
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom'
 
-async function User() {
+function User() {
 const {userId} = useParams();
+const [user, setUser] = useState({});
 
-const response = await fetch(`http://localhost:3001/users/${userId}`).then((response) => response.json() );
-
+useEffect(() => {
+  fetch(`http://localhost:3001/users/${userId}`).then((response) => response.json() ).then((data) => setUser(data));
+}, [])
 
   return (
       <h1>
           User - {userId}
-          {response.first_name}
+          {user.first_name}
       </h1>
   )
 }
