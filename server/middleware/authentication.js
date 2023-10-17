@@ -15,6 +15,7 @@ const verifyToken = async (req, res, next) => {
     try {
       const tokenVerified = checkTokenValidity(token, "MySecretValue");
       if (tokenVerified) {
+        console.log(tokenVerified);
         res.locals.user = tokenVerified.sub;
         return next();
       }

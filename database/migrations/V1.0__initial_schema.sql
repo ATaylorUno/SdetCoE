@@ -3,6 +3,7 @@ CREATE TABLE IF NOT EXISTS public.users
     id serial constraint users_pk primary key,
     first_name text not null,
     second_name text not null,
+    email text not null,
     password text not null,
     active boolean default true not null
 );

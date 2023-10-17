@@ -45,6 +45,11 @@ describe("/users", () => {
                 location: "body"
               }),
               expect.objectContaining({
+                param: "email",
+                msg: "email is required",
+                location: "body"
+              }),
+              expect.objectContaining({
                 param: "password",
                 msg: "password is required",
                 location: "body"
@@ -66,6 +71,7 @@ describe("/users", () => {
         .send({
           first_name: "testFN",
           second_name: "testLn",
+          email: "testEmail",
           password: "testPassword"
         })
         .expect(201);
@@ -85,6 +91,11 @@ describe("/users", () => {
               expect.objectContaining({
                 param: "second_name",
                 msg: "Invalid value",
+                location: "body"
+              }),
+              expect.objectContaining({
+                param: "email",
+                msg: "email is required",
                 location: "body"
               }),
               expect.objectContaining({
@@ -109,6 +120,7 @@ describe("/users", () => {
         .send({
           first_name: "testFN",
           second_name: "testLn",
+          email: "testEmail",
           password: "testPassword"
         })
         .expect(404);
@@ -120,6 +132,7 @@ describe("/users", () => {
         .send({
           first_name: "testFN",
           second_name: "testLn",
+          email: "testEmail",
           password: "testPassword"
         })
         .expect(204);

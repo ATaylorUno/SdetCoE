@@ -1,40 +1,50 @@
 import { useState } from 'react'
-import './App.css'
-import HelloWorld from './components/helloWorld'
+import ResponsiveAppBar from './components/appbar';
 import { Route, Routes, Navigate, Link } from "react-router-dom";
-import Home from './pages/home'
-import About from './pages/about'
+import LogIn from './pages/LogIn';
+import Home from './pages/currentRoutine'
+import About from './pages/workoutHistory'
 import User from './pages/user'
+import AccountInfo from './pages/accountInfo'
+import AuthContext from './contexts/auth'
+import WorkoutHistory from './pages/workoutHistory';
+import Workout from './pages/workout';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const AuthenticatedRoutes = () => {
+    return (
+
+    <Routes>
+      <Route path="/user/:userId" element={<User />} />
+      <Route path="/workout/:workoutId" element={<Workout />} />
+      <Route path="/about" element={<About />} />
+      <Route path="/accountInfo" element={<AccountInfo/>} />
+      <Route path="/workoutHistory" element={<WorkoutHistory/>} />
+      <Route path="/" element={<Home />} />
+      <Route path="*" element={<Navigate to="/" />} />
+
+   </Routes>
+    )
+  }
+
+  const UnauthenticatedRoutes = () => {
+    return (
+      <Routes>
+      <Route path="/logIn" element={<LogIn />} />
+      <Route path="*" element={<Navigate to="/logIn" />} />
+      </Routes>
+    )
+  }
 
 
+  const { state } = AuthContext.useLogin();
+  const authenticated = state.accessToken && true;
 
   return (
     <>
-    <Routes>
-      <Route path="/user/:userId" element={<User />} />
-      <Route path="/about" element={<About />} />
-      <Route path="/" element={<Home />} />
-      <Route path="*" element={<Navigate to="/" />} />
-   </Routes>
-      <div>
-        <Link to={"/about"}>About</Link> | <Link to={"/"}>Home</Link> | <Link to={"/user/1"}>User</Link>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 2)}>
-          count is {count}
-        </button>
-        <HelloWorld />
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+     {authenticated && <ResponsiveAppBar />}
+      {authenticated ? AuthenticatedRoutes() : UnauthenticatedRoutes()}
+  
     </>
   )
 }

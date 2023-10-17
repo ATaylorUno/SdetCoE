@@ -22,6 +22,10 @@ const { usersController } = require("../controllers/");
  *        in: query
  *        type: string
  *        description: The filter for user second name
+ *      - name: Email
+ *        in: query
+ *        type: string
+ *        description: The filter for user's email
  *     responses:
  *       200:
  *         description: OK
@@ -30,7 +34,7 @@ const { usersController } = require("../controllers/");
  *             examples:
  *               jsonObject:
  *                 summary: An example JSON response
- *                 value: '[{ "user_id": 1, "first_name": "Andrew", "second_name": "Taylor", "password": "pa$$word" }, { "user_id": 2, "first_name": "Andy", "second_name": "Tyler", "password": "passw0rd" }]'
+ *                 value: '[{ "user_id": 1, "first_name": "Andrew", "second_name": "Taylor", "email": "andrewtaylor@gmail.com", "password": "pa$$word" }, { "user_id": 2, "first_name": "Andy", "second_name": "Tyler", "email": "andytyler@gmail.com", "password": "passw0rd" }]'
  *       204:
  *         description: No content
  */
@@ -57,6 +61,10 @@ router.route("/").get(usersController.getUser);
  *                type: string
  *                required: true
  *                descriptions: The users last name
+ *              email:
+ *                type: string
+ *                required: true
+ *                descriptions: The users email address
  *              password:
  *                type: string
  *                required: true
@@ -69,7 +77,7 @@ router.route("/").get(usersController.getUser);
  *             examples:
  *               jsonObject:
  *                 summary: An example JSON response
- *                 value: '[{ "first_name": "new_f_name", "second_name": "new_l_name","password": "new_password"}]'
+ *                 value: '[{ "first_name": "new_f_name", "second_name": "new_l_name", "email": "new_email", "password": "new_password"}]'
  *       204:
  *         description: No content
  */
@@ -86,6 +94,11 @@ router
         .isString()
         .isLength({ min: 3 })
         .withMessage("the second_name must have minimum length of 3")
+        .trim(),
+      body("email")
+        .isString()
+        .isLength({ min: 5 })
+        .withMessage("the email must be in correct email format")
         .trim(),
       body("password").isString().withMessage("password is required").trim()
     ],
@@ -119,6 +132,10 @@ router
  *                type: string
  *                required: true
  *                descriptions: The users second name
+ *               name: Email:
+ *                in: query
+ *                type: string
+ *                description: The users email
  *              password:
  *                type: string
  *                required: true
@@ -131,7 +148,7 @@ router
  *             examples:
  *               jsonObject:
  *                 summary: An example JSON response
- *                 value: '[{ "first_name": "new_f_name", "second_name": "new_l_name","password": "new_password"}]'
+ *                 value: '[{ "first_name": "new_f_name", "second_name": "new_l_name","email": "new_email", "password": "new_password"}]'
  *       204:
  *         description: No content
  */
@@ -148,6 +165,11 @@ router
         .isString()
         .isLength({ min: 3 })
         .withMessage("the second_name must have minimum length of 3")
+        .trim(),
+      body("email")
+        .isString()
+        .isLength({ min: 5 })
+        .withMessage("the email must be in correct email format")
         .trim(),
       body("password").isString().withMessage("password is required.").trim()
     ],
@@ -175,7 +197,7 @@ router
  *             examples:
  *               jsonObject:
  *                 summary: An example JSON response
- *                 value: '[{ "user_id": 1, "first_name": "Andrew", "second_name": "Taylor", "password": "pa$$word" }, { "user_id": 2, "first_name": "Andy", "second_name": "Tyler", "password": "passw0rd" }]'
+ *                 value: '[{ "user_id": 1, "first_name": "Andrew", "second_name": "Taylor", "email": "andrewtaylor@gmail.com", "password": "pa$$word" }, { "user_id": 2, "first_name": "Andy", "second_name": "Tyler",  "andytyler@gmail.com","password": "passw0rd" }]'
  *       204:
  *         description: No content
  */

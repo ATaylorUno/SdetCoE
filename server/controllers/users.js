@@ -2,13 +2,14 @@ const prisma = require("../utils/prisma");
 const bcrypt = require("bcrypt");
 
 async function getUser(req, res) {
-  const { first_name, second_name } = req.query;
+  const { first_name, second_name, email } = req.query;
   const config = {
     where: {},
     select: {
       id: true,
       first_name: true,
-      second_name: true
+      second_name: true,
+      email: true
     }
   };
   if (first_name) {
@@ -23,6 +24,12 @@ async function getUser(req, res) {
       mode: "insensitive"
     };
   }
+  if (email) {
+    config.where.email = {
+      startsWith: email,
+      mode: "insensitive"
+    };
+  }
   const users = await prisma.users.findMany(config);
 
   if (users && users.length > 0) {
@@ -32,12 +39,13 @@ async function getUser(req, res) {
 }
 
 async function createUser(req, res) {
-  const { first_name, second_name, password } = req.body;
+  const { first_name, second_name, email, password } = req.body;
   const hashedPassword = await bcrypt.hash(password, 10);
   const users = await prisma.users.create({
     data: {
       first_name,
       second_name,
+      email,
       password: hashedPassword
     }
   });
@@ -47,7 +55,7 @@ async function createUser(req, res) {
 async function updateUser(req, res) {
   const { user_id } = req.params;
 
-  const { first_name, second_name, password } = req.body; //check variables are being used correctly
+  const { first_name, second_name, email, password } = req.body; //check variables are being used correctly
   try {
     const hashedPassword = await bcrypt.hash(password, 10); //password doesnt need to be hashed in unit tests, just that bcrypt is being called
     await prisma.users.update({
@@ -58,6 +66,7 @@ async function updateUser(req, res) {
       data: {
         first_name,
         second_name,
+        email,
         password: hashedPassword
       }
     });

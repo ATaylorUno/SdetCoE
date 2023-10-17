@@ -1,7 +1,9 @@
+const { use } = require("bcrypt/promises");
 const prisma = require("../utils/prisma");
 
 async function getWorkouts(req, res) {
   const { user } = res.locals;
+  console.log(user);
   const workouts = await prisma.workouts.findMany({
     where: {
       routines: {

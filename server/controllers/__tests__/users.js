@@ -16,7 +16,8 @@ describe("users controller", () => {
       const req = {
         query: {
           first_name: "Andrew",
-          second_name: "Taylor"
+          second_name: "Taylor",
+          email: "andrewtaylor@gmail.com"
         }
       };
 
@@ -39,7 +40,8 @@ describe("users controller", () => {
       const req = {
         query: {
           first_name: "Andrew",
-          second_name: "Taylor"
+          second_name: "Taylor",
+          email: "andrewtaylor@gmail.com"
         }
       };
       res.status = jest.fn().mockReturnValue(res);
@@ -59,12 +61,17 @@ describe("users controller", () => {
               second_name: {
                 startsWith: "Taylor",
                 mode: "insensitive"
+              },
+              email: {
+                startsWith: "andrewtaylor@gmail.com",
+                mode: "insensitive"
+              },
+              select: {
+                id: true,
+                first_name: true,
+                second_name: true,
+                email: true
               }
-            },
-            select: {
-              id: true,
-              first_name: true,
-              second_name: true
             }
           })
         )
@@ -86,6 +93,7 @@ describe("users controller", () => {
         body: {
           first_name: "Andrew",
           second_name: "Taylor",
+          email: "andrewtaylor@gmail.com",
           password: "testPassword"
         }
       };
@@ -114,11 +122,13 @@ describe("users controller", () => {
       const password = "testPassword";
       const first_name = "Andrew";
       const second_name = "Taylor";
+      const email = "andrewtaylor@gmail.com";
       const hashedPassword = "testHashPassword";
       const req = {
         body: {
           first_name: first_name,
           second_name: second_name,
+          email: email,
           password: password
         },
         params: {
@@ -152,6 +162,7 @@ describe("users controller", () => {
           data: expect.objectContaining({
             first_name: first_name,
             second_name: second_name,
+            email: email,
             password: hashedPassword
           })
         })

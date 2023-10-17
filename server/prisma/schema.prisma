@@ -17,7 +17,7 @@ model exercises {
   id                Int                 @id(map: "exercises_pk") @default(autoincrement())
   exercise_name     String
   compound          Boolean             @default(true)
-  body_part_id      Int
+  body_part_id      Int?
   body_parts        body_parts?         @relation(fields: [body_part_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "exercise_body_part_body_part_id_fk")
   routine_exercises routine_exercises[]
   workout_exercises workout_exercises[]
@@ -29,7 +29,7 @@ model flyway_schema_history {
   description    String   @db.VarChar(200)
   type           String   @db.VarChar(20)
   script         String   @db.VarChar(1000)
-  checksum       Int
+  checksum       Int?
   installed_by   String   @db.VarChar(100)
   installed_on   DateTime @default(now()) @db.Timestamp(6)
   execution_time Int
@@ -40,8 +40,8 @@ model flyway_schema_history {
 
 model routine_exercises {
   id          Int        @id(map: "routine_exercises_pk") @default(autoincrement())
-  routine_id  Int
-  exercise_id Int
+  routine_id  Int?
+  exercise_id Int?
   exercises   exercises? @relation(fields: [exercise_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "routine_exercises_exercise_exercise_id_pk")
   routines    routines?  @relation(fields: [routine_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "routine_exercises_routine_routine_id_fk")
 }
@@ -51,7 +51,7 @@ model routines {
   name              String
   weeks             Int
   frequency         Int
-  user_id           Int
+  user_id           Int?
   routine_exercises routine_exercises[]
   users             users?              @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "routine_user_user_id_fk")
   workouts          workouts[]
@@ -61,13 +61,15 @@ model users {
   id          Int        @id(map: "users_pk") @default(autoincrement())
   first_name  String
   second_name String
+  email       String
   password    String
+  active      Boolean    @default(true)
   routines    routines[]
 }
 
 model workout_exercise_sets {
   id                  Int                @id(map: "workout_exercise_sets_pk") @default(autoincrement())
-  workout_exercise_id Int
+  workout_exercise_id Int?
   reps                Int
   difficulty          String
   workout_exercises   workout_exercises? @relation(fields: [workout_exercise_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "workout_exercise_sets_workout_exercises_workout_exercise_id")
@@ -75,8 +77,8 @@ model workout_exercise_sets {
 
 model workout_exercises {
   id                    Int                     @id(map: "workout_exercises_pk") @default(autoincrement())
-  workout_id            Int
-  exercise_id           Int
+  workout_id            Int?
+  exercise_id           Int?
   workout_exercise_sets workout_exercise_sets[]
   exercises             exercises?              @relation(fields: [exercise_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "workout_exercises_exercise_exercise_id_fk")
   workouts              workouts?               @relation(fields: [workout_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "workout_exercises_workout_workout_id_fk")
@@ -86,7 +88,7 @@ model workouts {
   id                Int                 @id(map: "workouts_pk") @default(autoincrement())
   name              String
   date              DateTime            @db.Date
-  routine_id        Int
+  routine_id        Int?
   workout_exercises workout_exercises[]
   routines          routines?           @relation(fields: [routine_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "workout_routine_routine_id_fk")
 }

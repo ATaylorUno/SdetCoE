@@ -5,11 +5,10 @@ const jwt = require("jsonwebtoken");
 
 //Authenticate
 async function authenticate(req, res) {
-  const { first_name, second_name, password } = req.body;
+  const { email, password } = req.body;
   const users = await prisma.users.findMany({
     where: {
-      first_name: first_name,
-      second_name: second_name
+      email: email
     }
   });
   const userFound = users && users.length > 0 && users[0];

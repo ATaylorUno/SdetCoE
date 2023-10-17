@@ -43,13 +43,9 @@ router
   .route("/")
   .post(
     [
-      check("first_name")
-        .isLength({ min: 2 })
-        .withMessage("the first_name must have minimum length of 2")
-        .trim(),
-      check("second_name")
-        .isLength({ min: 3 })
-        .withMessage("the second_name must have minimum length of 2")
+      check("email")
+        .isEmail()
+        .withMessage("the email must be in email format")
         .trim(),
       check("password")
         .isLength({ min: 6, max: 15 })

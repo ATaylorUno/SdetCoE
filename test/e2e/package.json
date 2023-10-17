@@ -1,0 +1,16 @@
+{
+  "name": "bodymax_e2e",
+  "version": "1.0.0",
+  "description": "e2e framework for bodymax",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "cypress": "cypress open"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "cypress": "^13.3.0",
+    "cypress-mochawesome-reporter": "^3.6.1"
+  }
+}

@@ -1,5 +1,5 @@
-insert into users (first_name, second_name, password)
-values ('Andrew', 'Taylor', '$2b$10$bDoSWAc8zl46LhoX3c4BIuvzJL1AjPED66b1jJJYQ/TLe5CY93DyK');
+insert into users (first_name, second_name, email, password)
+values ('Andrew', 'Taylor', 'andrewtaylor@gmail.com', '$2b$10$bDoSWAc8zl46LhoX3c4BIuvzJL1AjPED66b1jJJYQ/TLe5CY93DyK');
 
 insert into routines (name, weeks, frequency, user_id)
 values ('Holiday Cut', 12, 4, 1);
@@ -11,7 +11,7 @@ insert into body_parts (name)
 values ('Chest');
 
 insert into exercises (exercise_name, compound, body_part_id)
-values ('Squats', true, 1);
+values ('Bench Press', true, 1);
 
 
 insert into workout_exercises (workout_id, exercise_id)
