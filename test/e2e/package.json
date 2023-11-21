@@ -4,7 +4,7 @@
   "description": "e2e framework for bodymax",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "DEBUG=testcontainers:containers cypress run",
     "cypress": "cypress open"
   },
   "author": "",
@@ -12,5 +12,8 @@
   "devDependencies": {
     "cypress": "^13.3.0",
     "cypress-mochawesome-reporter": "^3.6.1"
+  },
+  "dependencies": {
+    "testcontainers": "^10.2.2"
   }
 }

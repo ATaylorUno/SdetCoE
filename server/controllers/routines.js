@@ -1,16 +1,13 @@
 const prisma = require("../utils/prisma");
 
 async function getRoutines(req, res) {
-  const { weeks, frequency } = req.query;
+  const { frequency } = req.query;
   const { user } = res.locals;
   const config = {
     where: {
       user_id: parseInt(user)
     }
   };
-  if (weeks) {
-    config.where.weeks = parseInt(weeks);
-  }
 
   if (frequency) {
     config.where.frequency = parseInt(frequency);
@@ -65,9 +62,24 @@ async function getExerciseRoutine(req, res) {
   }
 }
 
+async function createRoutines(req, res) {
+  const { name, start_date, finish_date, frequency, user_id } = req.body;
+  const routine = await prisma.routines.create({
+    data: {
+      name,
+      start_date: new Date(start_date),
+      finish_date: new Date(finish_date),
+      frequency: parseInt(frequency),
+      user_id: parseInt(user_id)
+    }
+  });
+  res.status(200).json(routine);
+}
+
 module.exports = {
   getRoutines,
   getRoutinesByUserID,
   getRoutineWorkout,
-  getExerciseRoutine
+  getExerciseRoutine,
+  createRoutines
 };

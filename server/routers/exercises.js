@@ -186,5 +186,4 @@ router
 router
   .route("/:body_part_id(\\d+)")
   .get(exercisesController.getExercisesBodyId);
-
 module.exports = router;

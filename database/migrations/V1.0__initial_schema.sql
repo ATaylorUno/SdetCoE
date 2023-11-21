@@ -12,7 +12,8 @@ CREATE TABLE IF NOT EXISTS public.routines
 (
     id serial constraint routines_pk primary key,
     name text not null,
-    weeks int not null,
+    start_date date not null,
+    finish_date date not null,
     frequency int not null,
     user_id int constraint routine_user_user_id_fk references public.users(id)
 );

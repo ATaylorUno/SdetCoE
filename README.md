@@ -60,7 +60,8 @@ erDiagram
     routine {
         int id PK
         text name
-        int weeks
+        date start_date
+        date finish_date
         int frequency
         int user_id FK
 
@@ -190,15 +191,17 @@ Response
 {
 "routine_id": 1,
 "name": "Bulking routine",
-"weeks": "12",
-"frequency": "4x"
+"start_date": "2023/11/04",
+"finish_date": "2024/01/13",
+"frequency": "4x",
 "user_id": "1"
 },
 {
 "routine_id": 2,
 "name": "Bulking routine",
-"weeks": "16",
-"frequency": "5x"
+"start_date": "2024/01/13",
+"finish_date": "2024/03/13",
+"frequency": "5x",
 "user_id": "2"
 }
 ]
@@ -213,7 +216,8 @@ Response
 {
 "routine_id": 1,
 "name": "Bulking routine",
-"weeks": "12",
+"start_date": "2024/01/13",
+"finish_date": "2024/03/13",
 "frequency": "4x"
 "user_id": "1"
 }

@@ -1,11 +1,11 @@
 insert into users (first_name, second_name, email, password)
 values ('Andrew', 'Taylor', 'andrewtaylor@gmail.com', '$2b$10$bDoSWAc8zl46LhoX3c4BIuvzJL1AjPED66b1jJJYQ/TLe5CY93DyK');
 
-insert into routines (name, weeks, frequency, user_id)
-values ('Holiday Cut', 12, 4, 1);
+insert into routines (name, start_date, finish_date, frequency, user_id)
+values ('Holiday Cut', '2023-08-03', '2024-01-12', 4, 1);
 
 insert into workouts (name, date, routine_id)
-values ('Chest Day', '2022-03-10', 1);
+values ('Chest Day', '2023-08-03', 1);
 
 insert into body_parts (name)
 values ('Chest');

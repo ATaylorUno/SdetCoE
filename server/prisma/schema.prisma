@@ -49,7 +49,8 @@ model routine_exercises {
 model routines {
   id                Int                 @id(map: "routines_pk") @default(autoincrement())
   name              String
-  weeks             Int
+  start_date        DateTime            @db.Date
+  finish_date       DateTime            @db.Date
   frequency         Int
   user_id           Int?
   routine_exercises routine_exercises[]

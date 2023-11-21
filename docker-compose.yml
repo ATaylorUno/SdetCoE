@@ -20,7 +20,7 @@ services:
     depends_on:
       - db
   api:
-    profiles: ["dev"]
+    # profiles: ["dev"]
     build:
       context: ./server
       dockerfile: Dockerfile.local
@@ -32,14 +32,16 @@ services:
       - flyway
     environment:
       DATABASE_URL: "postgres://postgres:password@db:5432/BodyMax?schema=public"
+  ui:
+    # profiles: ["dev"]
+    build:
+      context: ./ui
+      dockerfile: Dockerfile.local
+    volumes:
+      - ./ui:/app
+    ports:
+      - "5173:5173"
+    depends_on:
+      - api
 volumes:
   db: 
-
-
-
-
-
-
-
-
-

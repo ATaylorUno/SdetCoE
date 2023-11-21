@@ -10,7 +10,6 @@ describe("routines controller", () => {
       const user = 1;
       const req = {
         query: {
-          weeks: 12,
           frequency: 4
         }
       };
@@ -30,12 +29,10 @@ describe("routines controller", () => {
 
     it("Should return 200 when routines available", async () => {
       const user = "1";
-      const weeks = "12";
       const frequency = "4";
 
       const req = {
         query: {
-          weeks: weeks,
           frequency: frequency
         }
       };
@@ -56,7 +53,6 @@ describe("routines controller", () => {
         .calledWith(
           expect.objectContaining({
             where: {
-              weeks: parseInt(weeks),
               frequency: parseInt(frequency),
               user_id: parseInt(user)
             }

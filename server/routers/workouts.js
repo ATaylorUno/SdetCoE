@@ -22,7 +22,7 @@ const { workoutsController } = require("../controllers/");
  *             examples:
  *               jsonObject:
  *                 summary: An example JSON response
- *                 value: '[{"workout_id": 5,"name": "Upper Day", "date_created": Date, "routine_id": 4 },{"workout_id": 9, "name": "Lower Day","date_created":Date,"routine_id": 4}]'
+ *                 value: '[{"workout_id": 5,"name": "Upper Day", "date_created": "2023/", "routine_id": 4 },{"workout_id": 9, "name": "Lower Day","date_created":Date,"routine_id": 4}]'
  *       204:
  *         description: No content
  */
