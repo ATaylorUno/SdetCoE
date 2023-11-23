@@ -1,0 +1,23 @@
+name: Execute E2E Tests
+
+on:
+  pull_request:
+    paths:
+      - 'ui/**'
+      - 'server/**'
+      - 'db/**'
+
+defaults:
+  run:
+    working-directory: ./test/e2e
+
+jobs:
+  execute:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🛎 Checkout
+        uses: actions/checkout@v3
+      - name: Install
+        run: npm i
+      - name: Test
+        run: npm run test
