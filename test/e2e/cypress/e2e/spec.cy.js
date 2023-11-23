@@ -5,8 +5,8 @@ describe("template spec", () => {
     cy.visit("http://localhost:5173/logIn");
     const loginPage = new login();
     loginPage.elements.loginButton().first().screenshot("button test");
-    loginPage.enterEmail("test@gmail.com");
-    loginPage.enterPassword("test123");
+    loginPage.enterEmail("andy@taylor.com");
+    loginPage.enterPassword("Password12345");
     loginPage.clickLogin();
 
     cy.url().should("eq", "http://localhost:5173/");

@@ -1,5 +1,9 @@
+-- Password12345
 insert into users (first_name, second_name, email, password)
-values ('Andrew', 'Taylor', 'andrewtaylor@gmail.com', '$2b$10$bDoSWAc8zl46LhoX3c4BIuvzJL1AjPED66b1jJJYQ/TLe5CY93DyK');
+values 
+('Andrew', 'Taylor', 'andrewtaylor@gmail.com', '$2b$10$.RbzPZW79Du4kj.t5INUse/BZjZcSqDAUCWuR3nPo8CVSpoAIJp6u'),
+('Andy', 'Taylor', 'andy@taylor.com', '$2b$10$.RbzPZW79Du4kj.t5INUse/BZjZcSqDAUCWuR3nPo8CVSpoAIJp6u');
+
 
 insert into routines (name, start_date, finish_date, frequency, user_id)
 values ('Holiday Cut', '2023-08-03', '2024-01-12', 4, 1);
