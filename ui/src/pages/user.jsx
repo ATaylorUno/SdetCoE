@@ -11,7 +11,7 @@ useEffect(() => {
 
   return (
       <h1>
-          User - {userId}
+          User Id - {userId}
           {user.first_name}
       </h1>
   )
