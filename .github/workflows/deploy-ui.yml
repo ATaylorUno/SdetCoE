@@ -8,7 +8,7 @@ on:
     #  - "ui/**"
 
 jobs:
-  migrate:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
