@@ -19,29 +19,29 @@ services:
       - ./database:/flyway/sql
     depends_on:
       - db
-  api:
+  # api:
+  #   # profiles: ["dev"]
+  #   build:
+  #     context: ./server
+  #     dockerfile: Dockerfile.local
+  #   volumes:
+  #     - ./server:/app
+  #   ports:
+  #     - "3001:3001"
+  #   depends_on:
+  #     - flyway
+  #   environment:
+  #     DATABASE_URL: "postgres://postgres:password@db:5432/BodyMax?schema=public"
+  # ui:
     # profiles: ["dev"]
-    build:
-      context: ./server
-      dockerfile: Dockerfile.local
-    volumes:
-      - ./server:/app
-    ports:
-      - "3001:3001"
-    depends_on:
-      - flyway
-    environment:
-      DATABASE_URL: "postgres://postgres:password@db:5432/BodyMax?schema=public"
-  ui:
-    # profiles: ["dev"]
-    build:
-      context: ./ui
-      dockerfile: Dockerfile.local
-    volumes:
-      - ./ui:/app
-    ports:
-      - "5173:5173"
-    depends_on:
-      - api
+    # build:
+    #   context: ./ui
+    #   dockerfile: Dockerfile.local
+    # volumes:
+    #   - ./ui:/app
+    # ports:
+    #   - "5173:5173"
+    # depends_on:
+    #   - api
 volumes:
   db: 

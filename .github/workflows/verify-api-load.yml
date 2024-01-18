@@ -1,0 +1,32 @@
+ name: Verify API Load
+
+on:
+  pull_request:
+    paths:
+      - 'server/**'
+      - 'database/**'
+      - 'test/load/**'
+
+ verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Make Directory for results
+        run: mkdir -p LoadTestResults
+      - name: Start docker compose
+        run: docker compose up -d --wait && sleep 30
+      - name: Start application
+        run: |
+          npm i --prefix ./server && (npm start --prefix ./server&)
+      - name: Run k6 local test
+        uses: grafana/k6-action@v0.2.0
+        with:
+          filename: ./test/load/script.js
+          flags: --vus 50 --duration 10s --out json=./LoadTestResults/loadOutput.json
+      - name: Output the run Details
+        uses: actions/upload-artifact@v3
+        if: success()
+        with:
+          name: LoadOutput
+          path: ./LoadTestResults
