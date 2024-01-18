@@ -1,12 +1,14 @@
- name: Verify API Load
+name: Verify API Load
 
 on:
   pull_request:
-    # paths:
-    #   - 'server/**'
-    #   - 'database/**'
-    #   - 'test/load/**'
-
+    branches:
+      - main
+    paths:
+      - "server/**"
+      - "database/**"
+      - "test/load/**"
+      
  verify:
     runs-on: ubuntu-latest
     steps:
