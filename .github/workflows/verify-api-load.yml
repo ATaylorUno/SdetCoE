@@ -2,10 +2,10 @@
 
 on:
   pull_request:
-    paths:
-      - 'server/**'
-      - 'database/**'
-      - 'test/load/**'
+    # paths:
+    #   - 'server/**'
+    #   - 'database/**'
+    #   - 'test/load/**'
 
  verify:
     runs-on: ubuntu-latest
