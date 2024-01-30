@@ -65,6 +65,8 @@ app.use("/swagger.json", (req, res) =>
 
 
 
+
+
 app.use("/authentication", authenticationRouter);
 app.all("*", verifyToken);
 app.use("/users", usersRouter);
