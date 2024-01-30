@@ -21,3 +21,12 @@ jobs:
         run: npm i
       - name: Test
         run: npm run test
+      - name: Upload Test Output
+        uses: actions/upload-artifact@v3
+        if: success()
+        with:
+          name: TestContent
+          path: |
+            ./test/e2e/cypress/reports
+            ./test/e2e/cypress/screenshots
+            ./test/e2e/cypress/videos

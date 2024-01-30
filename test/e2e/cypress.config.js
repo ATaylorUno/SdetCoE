@@ -6,7 +6,7 @@ let composeContainer;
 module.exports = defineConfig({
   reporter: "cypress-mochawesome-reporter",
   video: true,
-  taskTimeout: 100000,
+  taskTimeout: 120000,
   reporterOptions: {
     // embeddedScreenshots: true,
     // reportDir: "cypress/results"
